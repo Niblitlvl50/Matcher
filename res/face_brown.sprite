@@ -1,0 +1,22 @@
+{
+    "animations": [
+        {
+            "frames": [
+                0,
+                -50
+            ],
+            "loop": true,
+            "name": "default"
+        }
+    ],
+    "frames": [
+        {
+            "h": 73,
+            "name": "face_brown",
+            "w": 259,
+            "x": 4,
+            "y": 912
+        }
+    ],
+    "texture": "res/sprite_atlas.png"
+}

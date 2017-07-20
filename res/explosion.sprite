@@ -1,0 +1,76 @@
+{
+    "animations": [
+        {
+            "frames": [
+                0,
+                -50,
+                1,
+                50,
+                2,
+                50,
+                3,
+                50,
+                4,
+                50,
+                5,
+                50,
+                6,
+                50
+            ],
+            "loop": true,
+            "name": "default"
+        }
+    ],
+    "frames": [
+        {
+            "h": 8,
+            "name": "explosion1",
+            "w": 8,
+            "x": 970,
+            "y": 23
+        },
+        {
+            "h": 8,
+            "name": "explosion2",
+            "w": 8,
+            "x": 970,
+            "y": 39
+        },
+        {
+            "h": 10,
+            "name": "explosion3",
+            "w": 11,
+            "x": 989,
+            "y": 22
+        },
+        {
+            "h": 10,
+            "name": "explosion4",
+            "w": 11,
+            "x": 1008,
+            "y": 4
+        },
+        {
+            "h": 10,
+            "name": "explosion5",
+            "w": 10,
+            "x": 1008,
+            "y": 22
+        },
+        {
+            "h": 10,
+            "name": "explosion6",
+            "w": 11,
+            "x": 989,
+            "y": 4
+        },
+        {
+            "h": 11,
+            "name": "explosion7",
+            "w": 11,
+            "x": 970,
+            "y": 4
+        }
+    ],
+    "texture": "res/sprite_atlas.png"
+}

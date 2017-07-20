@@ -1,0 +1,49 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "taskName": "build",
+            "command": "make",
+            "args": [
+                "-j8"
+            ],
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "taskName": "clean",
+            "command": "make",
+            "args": [
+                "clean"
+            ],
+            "type": "process",
+            "problemMatcher": []
+        },
+        {
+            "taskName": "cmake",
+            "command": "cmake",
+            "args": [
+                "."
+            ],
+            "type": "process",
+            "problemMatcher": []
+        },
+        {
+            "taskName": "run",
+            "type": "process",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "command": "./bin/game",
+            "args": [ ],
+            "problemMatcher": []
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "animations": [
+        {
+            "frames": [
+                0,
+                -50
+            ],
+            "loop": true,
+            "name": "default"
+        }
+    ],
+    "frames": [
+        {
+            "h": 150,
+            "name": "shadow",
+            "w": 334,
+            "x": 628,
+            "y": 809
+        }
+    ],
+    "texture": "res/sprite_atlas.png"
+}

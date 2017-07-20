@@ -1,0 +1,22 @@
+{
+    "animations": [
+        {
+            "frames": [
+                0,
+                -50
+            ],
+            "loop": true,
+            "name": "default"
+        }
+    ],
+    "frames": [
+        {
+            "h": 49,
+            "name": "face_smile",
+            "w": 259,
+            "x": 271,
+            "y": 915
+        }
+    ],
+    "texture": "res/sprite_atlas.png"
+}
