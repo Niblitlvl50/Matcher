@@ -15,10 +15,10 @@ namespace game
         GemGrid(const math::Vector& position, int cellSize);
         
         //! Convert world coordinates to local coordinates
-        math::Point GetLocalCoordinates(const math::Vector& worldCoords);
+        math::Vector GetLocalCoordinates(const math::Vector& worldCoords) const;
         
         //! Get a cell from local coordinates
-        math::Point GetCellFromCoordinates(const math::Point& localCoords);
+        math::Point GetCellFromCoordinates(const math::Vector& localCoords) const;
         
     private:
 

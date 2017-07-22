@@ -20,17 +20,17 @@ void GemGrid::Draw(mono::IRenderer& renderer) const
 void GemGrid::Update(unsigned int delta)
 { }
 
-math::Point GemGrid::GetLocalCoordinates(const math::Vector& worldCoords)
+math::Vector GemGrid::GetLocalCoordinates(const math::Vector& worldCoords) const
 {
     math::Matrix matrix = Transformation();
     math::Inverse(matrix);
 
     const math::Vector& output = math::Transform(matrix, worldCoords);
-    return math::Point(output.x, output.y) + math::Point(mCellSize / 2, mCellSize / 2);
+    return output + math::Vector(mCellSize / 2, mCellSize / 2);
 }
 
-math::Point GemGrid::GetCellFromCoordinates(const math::Point& localCoords)
+math::Point GemGrid::GetCellFromCoordinates(const math::Vector& localCoords) const
 {
-    const math::Vector& cell = math::Vector(localCoords.x, localCoords.y) / float(mCellSize);
+    const math::Vector& cell = localCoords / float(mCellSize);
     return math::Point(std::floor(cell.x), -std::floor(cell.y));
 }

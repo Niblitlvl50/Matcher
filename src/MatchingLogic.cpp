@@ -153,14 +153,16 @@ void MatchingLogic::FillEmptyCellsWithGems()
 
             --row;
         }
-        
+
         // Create new gems for the empty cells that are left
         while(row >= 0)
         {
-            auto newGem = game::CreateRandomGem(math::Vector(column * CellSize, 60));
-            const math::Vector position(column * CellSize, row * -CellSize);
+            const float x = column * CellSize;
+            const float start_y = 160;
+            const float final_y = row * -CellSize;
 
-            auto action = std::make_shared<MoveAction>(newGem, position, 400);
+            auto newGem = game::CreateRandomGem(math::Vector(x, start_y + final_y));
+            auto action = std::make_shared<MoveAction>(newGem, math::Vector(x, final_y), 400);
             mActionManager->AddAction(action);
             mGemContainer->AddChild(newGem);
             mMatrix.Assign(newGem, row, column);

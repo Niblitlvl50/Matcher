@@ -104,7 +104,7 @@ bool MiningZone::OnKeyUp(const event::KeyUpEvent& event)
 
 bool MiningZone::OnMouseUp(const event::MouseUpEvent& event)
 {
-    const math::Point& local = mGemGrid->GetLocalCoordinates(math::Vector(event.worldX, event.worldY));
+    const math::Vector& local = mGemGrid->GetLocalCoordinates(math::Vector(event.worldX, event.worldY));
     const math::Point& cell = mGemGrid->GetCellFromCoordinates(local);
     
     // Validate clicked cell, else reset and return

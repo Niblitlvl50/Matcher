@@ -19,7 +19,7 @@ namespace math
 namespace game
 {
     class ActionManager;
-    typedef std::pair<int, int> Match;
+    using Match = std::pair<int, int>;
     
     // Logic that will perform matches on the cells
     class MatchingLogic : public mono::IUpdatable

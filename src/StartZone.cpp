@@ -48,8 +48,8 @@ void StartZone::OnLoad(mono::ICameraPtr& camera)
     AddListeners();    
     camera->SetPosition(math::Vector(0, 0));
     
-    auto title_text = std::make_shared<TextObject>("Mega Miner!", mono::Color::RGBA(1, 1, 1, 1), math::Vector(0, 150));
-    mStartText = std::make_shared<TextObject>("Start mining!", mono::Color::RGBA(1, 0, 0, 1), math::Vector(0, 50));
+    auto title_text = std::make_shared<TextObject>("Blob Matcher", mono::Color::RGBA(1, 1, 1, 1), math::Vector(0, 150));
+    mStartText = std::make_shared<TextObject>("Start", mono::Color::RGBA(1, 0, 0, 1), math::Vector(0, 50));
     mExitText = std::make_shared<TextObject>("Exit", mono::Color::RGBA(1, 0, 0, 1), math::Vector(0, 0));
     
     auto mGemLeft = game::CreateRandomGem(math::Vector(-185, 160));
@@ -80,17 +80,17 @@ bool StartZone::OnMouseMotion(const event::MouseMotionEvent& event)
 {
     const math::Vector point(event.worldX, event.worldY);
     
-    const math::Quad startBB = mStartText->BoundingBox();
-    const math::Quad exitBB = mExitText->BoundingBox();
+    const math::Quad& startBB = mStartText->BoundingBox();
+    const math::Quad& exitBB = mExitText->BoundingBox();
     
     const bool insideStart = math::PointInsideQuad(point, startBB);
     const bool insideExit = math::PointInsideQuad(point, exitBB);
     
-    const mono::Color::RGBA red(1, 0, 0, 1);
-    const mono::Color::RGBA green(0, 1, 0, 1);
+    constexpr mono::Color::RGBA red(1, 0, 0, 1);
+    constexpr mono::Color::RGBA green(0, 1, 0, 1);
     
-    const mono::Color::RGBA startColor = insideStart ? green : red;
-    const mono::Color::RGBA exitColor = insideExit ? green : red;
+    const mono::Color::RGBA& startColor = insideStart ? green : red;
+    const mono::Color::RGBA& exitColor = insideExit ? green : red;
     
     mStartText->SetColor(startColor);
     mExitText->SetColor(exitColor);
@@ -102,8 +102,8 @@ bool StartZone::OnMouseUp(const event::MouseUpEvent& event)
 {
     const math::Vector point(event.worldX, event.worldY);
     
-    const math::Quad startBB = mStartText->BoundingBox();
-    const math::Quad exitBB = mExitText->BoundingBox();
+    const math::Quad& startBB = mStartText->BoundingBox();
+    const math::Quad& exitBB = mExitText->BoundingBox();
     
     const bool insideStart = math::PointInsideQuad(point, startBB);
     const bool insideExit = math::PointInsideQuad(point, exitBB);
