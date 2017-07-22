@@ -1,0 +1,82 @@
+{
+    "animations": [
+        {
+            "frames": [
+                0,
+                -50
+            ],
+            "loop": true,
+            "name": "blue_eyes"
+        },
+        {
+            "frames": [
+                1,
+                100
+            ],
+            "loop": false,
+            "name": "brown_eyes"
+        },
+        {
+            "frames": [
+                2,
+                100
+            ],
+            "loop": false,
+            "name": "green_eyes"
+        },
+        {
+            "frames": [
+                3,
+                100
+            ],
+            "loop": false,
+            "name": "blink1"
+        },
+        {
+            "frames": [
+                4,
+                100
+            ],
+            "loop": false,
+            "name": "blink2"
+        }
+    ],
+    "frames": [
+        {
+            "h": 94,
+            "name": "face1",
+            "w": 259,
+            "x": 2,
+            "y": 715
+        },
+        {
+            "h": 73,
+            "name": "face2",
+            "w": 259,
+            "x": 265,
+            "y": 890
+        },
+        {
+            "h": 73,
+            "name": "face3",
+            "w": 259,
+            "x": 265,
+            "y": 813
+        },
+        {
+            "h": 49,
+            "name": "face4",
+            "w": 259,
+            "x": 2,
+            "y": 897
+        },
+        {
+            "h": 80,
+            "name": "face5",
+            "w": 259,
+            "x": 2,
+            "y": 813
+        }
+    ],
+    "texture": "res/sprite_atlas.png"
+}

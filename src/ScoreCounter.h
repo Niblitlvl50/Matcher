@@ -4,6 +4,7 @@
 #include "Entity/EntityBase.h"
 #include "Events/EventFwd.h"
 #include "EventHandler/EventToken.h"
+#include "MonoPtrFwd.h"
 #include <string>
 
 namespace game
@@ -33,5 +34,7 @@ namespace game
         std::string mText;
         
         mono::EventToken<game::ScoreEvent> mScoreEventToken;
+
+        mono::ISoundPtr m_sound;
     };
 }

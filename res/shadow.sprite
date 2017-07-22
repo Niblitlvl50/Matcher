@@ -14,8 +14,8 @@
             "h": 150,
             "name": "shadow",
             "w": 334,
-            "x": 628,
-            "y": 809
+            "x": 618,
+            "y": 795
         }
     ],
     "texture": "res/sprite_atlas.png"

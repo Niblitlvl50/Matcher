@@ -2,9 +2,12 @@
 #include "ScoreCounter.h"
 #include "Math/Quad.h"
 #include "EventHandler/EventHandler.h"
-#include "ScoreEvent.h"
+#include "events/ScoreEvent.h"
 #include "Rendering/IRenderer.h"
 #include "Rendering/Color.h"
+
+#include "Audio/AudioFactory.h"
+
 
 #include <sstream>
 
@@ -21,6 +24,8 @@ ScoreCounter::ScoreCounter(const math::Vector& position, mono::EventHandler& han
     
     const std::function<bool (const game::ScoreEvent&)> scoreFunc = std::bind(&ScoreCounter::OnScoreEvent, this, _1);
     mScoreEventToken = mEventHandler.AddListener(scoreFunc);
+
+    m_sound = mono::AudioFactory::CreateSound("res/sound/coin.wav", false, false);
 }
 
 ScoreCounter::~ScoreCounter()
@@ -36,19 +41,21 @@ bool ScoreCounter::OnScoreEvent(const game::ScoreEvent& event)
     
     mText = stream.str();
 
+    m_sound->Play();
+
     return false;
 }
 
 void ScoreCounter::Draw(mono::IRenderer& renderer) const
 {
-    constexpr math::Quad quad(math::Vector(-10, -10), math::Vector(200, 25));
+    constexpr math::Quad quad(math::Vector(-105, -15), math::Vector(105, 35));
     constexpr mono::Color::RGBA red(1, 0, 0, 1);
     constexpr mono::Color::RGBA black(0, 0, 0, 1);
     
     renderer.DrawQuad(quad, red, 3.0f);
     renderer.DrawQuad(quad, black, 2.0f);
 
-    renderer.DrawText(0, mText.c_str(), math::zeroVec, false, black);
+    renderer.DrawText(0, mText.c_str(), math::zeroVec, true, black);
 }
 
 void ScoreCounter::Update(unsigned int delta)

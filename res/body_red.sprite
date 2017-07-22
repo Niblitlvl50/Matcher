@@ -14,8 +14,8 @@
             "h": 252,
             "name": "body_red",
             "w": 297,
-            "x": 323,
-            "y": 567
+            "x": 317,
+            "y": 557
         }
     ],
     "texture": "res/sprite_atlas.png"

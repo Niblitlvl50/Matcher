@@ -2,35 +2,35 @@
 #include "Gem.h"
 #include "Rendering/IRenderer.h"
 #include "Rendering/Sprite/SpriteFactory.h"
+#include "Rendering/Sprite/ISprite.h"
 #include "Rendering/Color.h"
 #include "Random.h"
 
 using namespace game;
 
-namespace
+class SpriteEntity : public mono::EntityBase
 {
-    class SpriteEntity : public mono::EntityBase
+public:
+
+    SpriteEntity(const char* sprite_file)
     {
-    public:
+        sprite = mono::CreateSprite(sprite_file);
+    }
 
-        SpriteEntity(const char* sprite_file)
-        {
-            m_sprite = mono::CreateSprite(sprite_file);
-        }
+    void Draw(mono::IRenderer& renderer) const
+    {
+        renderer.DrawSprite(*sprite);
+    }
 
-        void Draw(mono::IRenderer& renderer) const
-        {
-            renderer.DrawSprite(*m_sprite);
-        }
+    void Update(unsigned int delta)
+    {
+        sprite->doUpdate(delta);
+    }
 
-        void Update(unsigned int delta)
-        { }
+    mono::ISpritePtr sprite;        
+};
 
-        mono::ISpritePtr m_sprite;        
-    };
-}
-
-Gem::Gem(const GemData& data)
+Gem::Gem(const GemSetup& data)
     : mType(data.type),
       mSelected(false)
 {
@@ -40,15 +40,20 @@ Gem::Gem(const GemData& data)
     shadow->SetPosition(math::Vector(0.0f, -0.3f));
     shadow->SetScale(math::Vector(1.1f, 0.6f));
 
-    auto face = std::make_shared<SpriteEntity>(data.face_sprite);
-    face->SetScale(math::Vector(0.85f, 0.3f));
-    face->SetPosition(math::Vector(0.0f, -0.25f));
+    m_face = std::make_shared<SpriteEntity>("res/face.sprite");
+    m_face->SetScale(math::Vector(0.85f, 0.3f));
+    m_face->SetPosition(math::Vector(0.0f, -0.25f));
+
+    m_face->sprite->SetAnimation(data.animation);
 
     auto body = std::make_shared<SpriteEntity>(data.body_sprite);
 
     AddChild(shadow);
     AddChild(body);
-    AddChild(face);
+    AddChild(m_face);
+
+    const int tree_to_sixty = mono::RandomInt(3000, 60000);
+    m_timer.SetTimeout(tree_to_sixty);
 }
 
 void Gem::Draw(mono::IRenderer& renderer) const
@@ -61,7 +66,19 @@ void Gem::Draw(mono::IRenderer& renderer) const
 }
 
 void Gem::Update(unsigned int delta)
-{ }
+{
+    m_timer.doUpdate(delta);
+
+    const bool signal = m_timer.IsSignaled();
+    if(signal)
+    {
+        const auto callback = [this]() {
+            m_face->sprite->SetAnimation("brown_eyes");
+        };
+
+        m_face->sprite->SetAnimation("blink1", callback);
+    }
+}
 
 GemType Gem::GetType() const
 {
@@ -75,13 +92,13 @@ void Gem::SetSelected(bool selected)
 
 std::shared_ptr<game::Gem> game::CreateRandomGem(const math::Vector& position)
 {
-    constexpr GemData data_table[] = {
-        { "res/body_red.sprite",    "res/face_green.sprite", GemType::RED    },
-        { "res/body_green.sprite",  "res/face_brown.sprite", GemType::GREEN  },
-        { "res/body_blue.sprite",   "res/face_smile.sprite", GemType::BLUE   },
-        { "res/body_yellow.sprite", "res/face_blue.sprite",  GemType::YELLOW },
-        { "res/body_purple.sprite", "res/face_blink.sprite", GemType::PURPLE },
-        { "res/body_black.sprite",  "res/eye.sprite",        GemType::BLACK  },
+    constexpr GemSetup data_table[] = {
+        { "res/body_red.sprite",    "green_eyes",     GemType::RED    },
+        { "res/body_green.sprite",  "brown_eyes",     GemType::GREEN  },
+        { "res/body_blue.sprite",   "green_eyes",     GemType::BLUE   },
+        { "res/body_yellow.sprite", "blue_eyes",      GemType::YELLOW },
+        { "res/body_purple.sprite", "brown_eyes",     GemType::PURPLE },
+        { "res/body_black.sprite",  "res/eye.sprite", GemType::BLACK  },
     };
 
     const int random_int = mono::RandomInt(0, 4);

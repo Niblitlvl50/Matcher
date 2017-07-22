@@ -5,7 +5,6 @@
 #include "Background.h"
 #include "GemGrid.h"
 #include "Gem.h"
-#include "FuseFlame.h"
 
 #include "Math/Vector.h"
 #include "Rendering/ICamera.h"
@@ -16,19 +15,17 @@
 #include "Events/KeyEvent.h"
 #include "Events/QuitEvent.h"
 
-#include "CountdownEvent.h"
+#include "events/CountdownEvent.h"
 #include "MatchingLogic.h"
 
 #include "ActionManager.h"
-#include "MoveAction.h"
-#include "SequenceAction.h"
+#include "actions/MoveAction.h"
+#include "actions/SequenceAction.h"
 
 #include "CountdownTimer.h"
 #include "ScoreCounter.h"
 
 #include "RenderLayers.h"
-
-#include <cstdlib>
 
 using namespace game;
 
@@ -39,12 +36,11 @@ MiningZone::MiningZone(mono::EventHandler& eventHandler)
 {
     using namespace std::placeholders;
     const event::MouseUpEventFunc mouseUpFunc = std::bind(&MiningZone::OnMouseUp, this, _1);
-    mMouseUpToken = mEventHandler.AddListener(mouseUpFunc);
-    
     const event::KeyUpEventFunc onKeyUpFunc = std::bind(&MiningZone::OnKeyUp, this, _1);
-    mKeyUpToken = mEventHandler.AddListener(onKeyUpFunc);
-    
     std::function<bool (const CountdownEvent&)> func = std::bind(&MiningZone::OnCountdown, this, _1);
+
+    mMouseUpToken = mEventHandler.AddListener(mouseUpFunc);    
+    mKeyUpToken = mEventHandler.AddListener(onKeyUpFunc);    
     mCountdownToken = mEventHandler.AddListener(func);
 }
 
@@ -59,15 +55,9 @@ void MiningZone::OnLoad(mono::ICameraPtr& camera)
 {
     // Set camera and create the background and the top of the frame around the gems
     camera->SetPosition(math::Vector(0, 0));
-    AddEntity(std::make_shared<Background>(), BACKGROUND);
-    //AddEntity(std::make_shared<BackgroundTop>(), FOREGROUND);
-    
-    // Create the fuses flame, this was meant to move along the fuse but there was no time...
-    //AddEntity(std::make_shared<FuseFlame>(math::Vector(-110, -255)), MIDDLEGROUND);
-    
+        
     // GemGrid is the holder of all the gems which makes the positioning easier
-    mGemGrid = std::make_shared<GemGrid>(math::Vector(-200, 200), CellSize);
-    AddEntity(mGemGrid, MIDDLEGROUND);
+    mGemGrid = std::make_shared<GemGrid>(math::Vector(-250, 280), CellSize);
     
     // Create and assign the gems
     for(int row = 0; row < mMatrix.Rows(); ++row)
@@ -80,10 +70,13 @@ void MiningZone::OnLoad(mono::ICameraPtr& camera)
             mMatrix.Assign(gem, row, column);
         }
     }
-    
+
+    AddEntity(std::make_shared<Background>(), BACKGROUND);
+    AddEntity(mGemGrid, MIDDLEGROUND);
+
     // Add the counters
     AddEntity(std::make_shared<CountdownTimer>(60, math::Vector(0, 350), mEventHandler), FOREGROUND);
-    AddEntity(std::make_shared<ScoreCounter>(math::Vector(-200, -350), mEventHandler), FOREGROUND);
+    AddEntity(std::make_shared<ScoreCounter>(math::Vector(0, -350), mEventHandler), FOREGROUND);
     
     // Create the action manager
     mActionManager = std::make_shared<ActionManager>();
@@ -112,8 +105,8 @@ bool MiningZone::OnKeyUp(const event::KeyUpEvent& event)
 
 bool MiningZone::OnMouseUp(const event::MouseUpEvent& event)
 {
-    const math::Point local = mGemGrid->GetLocalCoordinates(math::Vector(event.worldX, event.worldY));
-    const math::Point cell = mGemGrid->GetCellFromCoordinates(local);
+    const math::Point& local = mGemGrid->GetLocalCoordinates(math::Vector(event.worldX, event.worldY));
+    const math::Point& cell = mGemGrid->GetCellFromCoordinates(local);
     
     // Validate clicked cell, else reset and return
     const bool validCell = mMatrix.Validate(cell.y, cell.x);
@@ -135,26 +128,14 @@ bool MiningZone::OnMouseUp(const event::MouseUpEvent& event)
     
     // If we end up here, we have a valid cell previously selected and now its time to swap gems
     
-    const auto IsValidNeighbour = [](const math::Point& first, const math::Point& second) {
-        const math::Point diff = first - second;
-        
-        const bool xIsValid = (std::abs(diff.x) == 1);
-        const bool xIsZero  = (std::abs(diff.x) == 0);
-        
-        const bool yIsValid = (std::abs(diff.y) == 1);
-        const bool yIsZero  = (std::abs(diff.y) == 0);
-        
-        return (xIsValid && yIsZero) || (xIsZero && yIsValid);
-    };
-
     // Save the selected gem for reset after possible match
     auto selectedGem = mMatrix.Get(mSelectedCell.y, mSelectedCell.x);
 
     // Check that we have selected a valid neighbour, prevent diagonal selection
     // and cells that are further away than one cell
-    const bool validNeighbour = IsValidNeighbour(mSelectedCell, cell);
+    const bool validNeighbour = game::IsValidNeighbour(mSelectedCell, cell);
     if(validNeighbour)
-        DoSwap(cell);
+        DoSwap(mSelectedCell, cell);
     
     // Reset selected gem...
     mHasSelectedGem = false;
@@ -163,25 +144,20 @@ bool MiningZone::OnMouseUp(const event::MouseUpEvent& event)
     return false;
 }
 
-void MiningZone::DoSwap(const math::Point& cell)
+void MiningZone::DoSwap(const math::Point& selected_cell, const math::Point& other_cell)
 {
-    const auto IsHorizontalSwap = [](const math::Point& first, const math::Point& second) {
-        const math::Point diff = first - second;
-        return (std::abs(diff.y) == 0);
-    };
-
     // Get objects
-    auto selectedGem = mMatrix.Get(mSelectedCell.y, mSelectedCell.x);
-    auto neighbourGem = mMatrix.Get(cell.y, cell.x);
+    auto selectedGem = mMatrix.Get(selected_cell.y, selected_cell.x);
+    auto neighbourGem = mMatrix.Get(other_cell.y, other_cell.x);
     
     // Swap
-    mMatrix.Swap(mSelectedCell.y, mSelectedCell.x, cell.y, cell.x);
+    mMatrix.Swap(selected_cell.y, selected_cell.x, other_cell.y, other_cell.x);
     
     // Get iterators to the affected ranges
-    const bool horizontalSwap = IsHorizontalSwap(mSelectedCell, cell);
-    GemMatrix::iterator temp = horizontalSwap ? mMatrix.iterate_column(cell.x) : mMatrix.iterate_row(mSelectedCell.y);
-    GemMatrix::iterator column = mMatrix.iterate_column(mSelectedCell.x);
-    GemMatrix::iterator row = mMatrix.iterate_row(cell.y);
+    const bool horizontalSwap = game::IsHorizontalSwap(selected_cell, other_cell);
+    GemMatrix::iterator temp = horizontalSwap ? mMatrix.iterate_column(other_cell.x) : mMatrix.iterate_row(selected_cell.y);
+    GemMatrix::iterator column = mMatrix.iterate_column(selected_cell.x);
+    GemMatrix::iterator row = mMatrix.iterate_row(other_cell.y);
     
     // Check if any range got a match
     const bool matches1 = game::HasMatchInRange(temp);
@@ -199,7 +175,7 @@ void MiningZone::DoSwap(const math::Point& cell)
     else
     {
         // Swap back!
-        mMatrix.Swap(mSelectedCell.y, mSelectedCell.x, cell.y, cell.x);
+        mMatrix.Swap(selected_cell.y, selected_cell.x, other_cell.y, other_cell.x);
         
         // Do swap back and forth animation
         auto sequence1 = std::make_shared<SequenceAction>();
@@ -213,4 +189,3 @@ void MiningZone::DoSwap(const math::Point& cell)
         mActionManager->AddAction(sequence2);
     }
 }
-

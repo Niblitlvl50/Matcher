@@ -11,6 +11,11 @@ namespace mono
     class EntityBase;
 }
 
+namespace math
+{
+    struct Point;
+}
+
 namespace game
 {
     class ActionManager;
@@ -53,4 +58,7 @@ namespace game
     //! @param[in] it A GemMatrix iterator
     //! @return bool If this range has a valid match
     bool HasMatchInRange(GemMatrix::iterator& it);
+
+    bool IsValidNeighbour(const math::Point& first, const math::Point& second);
+    bool IsHorizontalSwap(const math::Point& first, const math::Point& second);
 }

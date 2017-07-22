@@ -1,13 +1,16 @@
 
 #include "MatchingLogic.h"
 #include "Gem.h"
+#include "Point.h"
 #include "Entity/EntityBase.h"
 #include "ActionManager.h"
-#include "MoveAction.h"
+#include "actions/MoveAction.h"
 #include "Random.h"
-#include "ScoreEvent.h"
+#include "events/ScoreEvent.h"
 #include "EventHandler/EventHandler.h"
+
 #include <stack>
+#include <cstdlib>
 
 using namespace game;
 using namespace std::placeholders;
@@ -75,7 +78,7 @@ void MatchingLogic::doUpdate(unsigned int delta)
         return;
     
     // Gather all the matches and process them later
-    typedef std::pair<int, std::vector<Match>> MatchPair;
+    using MatchPair = std::pair<int, std::vector<Match>>;
     std::vector<MatchPair> rowMatches;
     std::vector<MatchPair> columnMatches;
     
@@ -196,7 +199,7 @@ void MatchingLogic::HandleMatch(int row, int column)
         return;
     
     mMatrix.Assign(nullptr, row, column);
-    
+
     const int duration = mono::RandomInt(600, 800);
     auto action = std::make_shared<MoveAction>(oldGem, math::Vector(0, -380), duration);
     action->SetCallback(std::bind(&MatchingLogic::HandleRemoveGem, this, _1));
@@ -216,5 +219,21 @@ bool game::HasMatchInRange(GemMatrix::iterator& it)
     return !GetMatchesInRange(it).empty();
 }
 
+bool game::IsValidNeighbour(const math::Point& first, const math::Point& second)
+{
+    const math::Point& diff = first - second;
+    
+    const bool xIsValid = (std::abs(diff.x) == 1);
+    const bool xIsZero  = (std::abs(diff.x) == 0);
+    
+    const bool yIsValid = (std::abs(diff.y) == 1);
+    const bool yIsZero  = (std::abs(diff.y) == 0);
+    
+    return (xIsValid && yIsZero) || (xIsZero && yIsValid);
+}
 
-
+bool game::IsHorizontalSwap(const math::Point& first, const math::Point& second)
+{
+    const math::Point& diff = first - second;
+    return (std::abs(diff.y) == 0);
+}

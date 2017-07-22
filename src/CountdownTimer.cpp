@@ -1,7 +1,7 @@
 
 #include "CountdownTimer.h"
 #include "EventHandler/EventHandler.h"
-#include "CountdownEvent.h"
+#include "events/CountdownEvent.h"
 #include "Rendering/IRenderer.h"
 #include "Rendering/Color.h"
 #include <sstream>
@@ -30,10 +30,11 @@ void CountdownTimer::Update(unsigned int delta)
     if(signal)
     {
         --mSeconds;
+        mSeconds = std::max(mSeconds, 0);
         UpdateText();
     }
     
-    if(mSeconds < 0)
+    if(mSeconds == 0)
         mEventHandler.DispatchEvent(game::CountdownEvent());
 }
 

@@ -3,11 +3,19 @@
 
 using namespace game;
 
+WaitTimer::WaitTimer()
+{ }
+
 WaitTimer::WaitTimer(unsigned int wait)
     : mWait(wait),
       mCounter(0),
       mSignal(false)
 { }
+
+void WaitTimer::SetTimeout(unsigned int wait)
+{
+    mWait = wait;
+}
 
 bool WaitTimer::IsSignaled() const
 {

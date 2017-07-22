@@ -4,6 +4,10 @@
 #include "Entity/EntityBase.h"
 #include "Rendering/RenderPtrFwd.h"
 
+#include "WaitTimer.h"
+
+class SpriteEntity;
+
 namespace game
 {
     //! The different types of gems
@@ -17,10 +21,10 @@ namespace game
         BLACK
     };
 
-    struct GemData
+    struct GemSetup
     {
         const char* body_sprite;
-        const char* face_sprite;
+        const char* animation;
         GemType type;
     };
     
@@ -31,7 +35,7 @@ namespace game
         //! Gem constructor
         //! @param[in] sprite A filepath to a sprite file
         //! @param[in] type The gemtype
-        Gem(const GemData& data);
+        Gem(const GemSetup& data);
         
         virtual void Draw(mono::IRenderer& renderer) const;
         virtual void Update(unsigned int delta);
@@ -48,6 +52,9 @@ namespace game
 
         GemType mType;
         bool mSelected;
+
+        std::shared_ptr<SpriteEntity> m_face;
+        WaitTimer m_timer;
     };
     
     //! Create a random Gem at x, y position

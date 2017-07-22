@@ -25,11 +25,12 @@ namespace game
         //! Set text
         //! @param[in] text The new text
         void SetText(const std::string& text);
+        
+        virtual math::Quad BoundingBox() const;
+
+    private:
 
         virtual void doDraw(mono::IRenderer& renderer) const;
-        virtual math::Quad BoundingBox() const;
-        
-    private:
         
         std::string mText;
         mono::Color::RGBA mColor;

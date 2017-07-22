@@ -14,8 +14,8 @@
             "h": 275,
             "name": "body_purple",
             "w": 305,
-            "x": 614,
-            "y": 4
+            "x": 604,
+            "y": 2
         }
     ],
     "texture": "res/sprite_atlas.png"

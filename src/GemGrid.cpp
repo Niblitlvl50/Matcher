@@ -11,7 +11,7 @@ GemGrid::GemGrid(const math::Vector& position, int cellSize)
     : mCellSize(cellSize)
 {
     m_position = position;
-    m_scale = math::Vector(1.5f, 1.5f);
+    m_scale = math::Vector(1.8f, 1.8f);
 }
 
 void GemGrid::Draw(mono::IRenderer& renderer) const

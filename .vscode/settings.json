@@ -54,6 +54,9 @@
         "__locale": "cpp",
         "cphashset.c": "cpp",
         "cpspacehash.c": "cpp",
-        "cpsweep1d.c": "cpp"
+        "cpsweep1d.c": "cpp",
+        "cpbbtree.c": "cpp",
+        "cpspace.c": "cpp",
+        "cpspacequery.c": "cpp"
     }
 }

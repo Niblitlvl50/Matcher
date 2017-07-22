@@ -14,7 +14,7 @@ arguments = [
     'spritebaker',
     '-width', '1024',
     '-height', '1024',
-    '-padding', '4',
+    '-padding', '2',
     '-bg_color', '255 0 255 0',
     '-trim_images',
     '-sprite_format',

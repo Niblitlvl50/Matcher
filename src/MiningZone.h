@@ -30,7 +30,7 @@ namespace game
         bool OnMouseUp(const event::MouseUpEvent& event);
         bool OnKeyUp(const event::KeyUpEvent& event);
         
-        void DoSwap(const math::Point& cell);
+        void DoSwap(const math::Point& selected_cell, const math::Point& cell);
         
         mono::EventHandler& mEventHandler;
         
