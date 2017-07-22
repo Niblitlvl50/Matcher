@@ -12,7 +12,6 @@ namespace game
     // Size of each cell in the grid, in pixels
     constexpr int CellSize = 40;
     
-    class Gem;
-    using GemPtr = std::shared_ptr<Gem>;
+    using GemPtr = std::shared_ptr<class Gem>;
     using GemMatrix = ObjectMatrix<GemPtr, 8, 8>;
 }

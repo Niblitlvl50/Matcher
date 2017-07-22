@@ -1,7 +1,6 @@
 
 #include "MiningZone.h"
 
-#include "Point.h"
 #include "Background.h"
 #include "GemGrid.h"
 #include "Gem.h"

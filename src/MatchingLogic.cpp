@@ -1,7 +1,7 @@
 
 #include "MatchingLogic.h"
 #include "Gem.h"
-#include "Point.h"
+#include "Math/Point.h"
 #include "Entity/EntityBase.h"
 #include "ActionManager.h"
 #include "actions/MoveAction.h"

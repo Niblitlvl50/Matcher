@@ -2,7 +2,7 @@
 #include "GemGrid.h"
 #include "Math/Vector.h"
 #include "Math/Matrix.h"
-#include "Point.h"
+#include "Math/Point.h"
 #include <cmath>
 
 using namespace game;

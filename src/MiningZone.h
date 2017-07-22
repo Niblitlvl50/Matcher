@@ -5,7 +5,7 @@
 #include "Events/EventFwd.h"
 #include "EventHandler/EventToken.h"
 #include "Globals.h"
-#include "Point.h"
+#include "Math/Point.h"
 
 namespace game
 {
