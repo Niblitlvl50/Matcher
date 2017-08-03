@@ -27,6 +27,7 @@ namespace game
     private:
                 
         bool OnCountdown(const game::CountdownEvent& event);
+        bool OnMouseDown(const event::MouseDownEvent& event);
         bool OnMouseUp(const event::MouseUpEvent& event);
         bool OnKeyUp(const event::KeyUpEvent& event);
         
@@ -34,6 +35,7 @@ namespace game
         
         mono::EventHandler& mEventHandler;
         
+        mono::EventToken<event::MouseDownEvent> mMouseDownToken;
         mono::EventToken<event::MouseUpEvent> mMouseUpToken;
         mono::EventToken<event::KeyUpEvent> mKeyUpToken;
         mono::EventToken<game::CountdownEvent> mCountdownToken;

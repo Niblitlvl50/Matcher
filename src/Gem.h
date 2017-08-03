@@ -43,15 +43,10 @@ namespace game
         //! Get the type of gem
         //! @return GemType Returns the type of the gem
         GemType GetType() const;
-        
-        //! Set the gem selected or not
-        //! @param[in] selected True if selected, false otherwise
-        void SetSelected(bool selected);
-        
+                
     private:
 
         GemType mType;
-        bool mSelected;
 
         std::shared_ptr<SpriteEntity> m_face;
         WaitTimer m_timer;

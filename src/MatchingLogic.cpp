@@ -148,7 +148,7 @@ void MatchingLogic::FillEmptyCellsWithGems()
             mMatrix.Assign(gem, row, column);
             
             const math::Vector position(column * CellSize, row * -CellSize);
-            auto action = std::make_shared<MoveAction>(gem, position, 400);
+            auto action = std::make_shared<MoveAction>(gem, position, 200);
             mActionManager->AddAction(action);
 
             --row;

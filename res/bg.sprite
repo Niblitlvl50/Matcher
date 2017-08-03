@@ -14,8 +14,8 @@
             "h": 234,
             "name": "bg",
             "w": 200,
-            "x": 618,
-            "y": 557
+            "x": 1830,
+            "y": 2
         }
     ],
     "texture": "res/sprite_atlas.png"

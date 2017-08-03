@@ -23,6 +23,7 @@
 
 #include "CountdownTimer.h"
 #include "ScoreCounter.h"
+#include "SpriteEntity.h"
 
 #include "RenderLayers.h"
 
@@ -34,10 +35,12 @@ MiningZone::MiningZone(mono::EventHandler& eventHandler)
       mHasSelectedGem(false)
 {
     using namespace std::placeholders;
+    const event::MouseDownEventFunc mouseDownFunc = std::bind(&MiningZone::OnMouseDown, this, _1);
     const event::MouseUpEventFunc mouseUpFunc = std::bind(&MiningZone::OnMouseUp, this, _1);
     const event::KeyUpEventFunc onKeyUpFunc = std::bind(&MiningZone::OnKeyUp, this, _1);
     std::function<bool (const CountdownEvent&)> func = std::bind(&MiningZone::OnCountdown, this, _1);
 
+    mMouseDownToken = mEventHandler.AddListener(mouseDownFunc);
     mMouseUpToken = mEventHandler.AddListener(mouseUpFunc);    
     mKeyUpToken = mEventHandler.AddListener(onKeyUpFunc);    
     mCountdownToken = mEventHandler.AddListener(func);
@@ -45,6 +48,7 @@ MiningZone::MiningZone(mono::EventHandler& eventHandler)
 
 MiningZone::~MiningZone()
 {
+    mEventHandler.RemoveListener(mMouseDownToken);
     mEventHandler.RemoveListener(mMouseUpToken);
     mEventHandler.RemoveListener(mKeyUpToken);
     mEventHandler.RemoveListener(mCountdownToken);
@@ -73,8 +77,13 @@ void MiningZone::OnLoad(mono::ICameraPtr& camera)
     AddEntity(std::make_shared<Background>(), BACKGROUND);
     AddEntity(mGemGrid, MIDDLEGROUND);
 
+    auto bush = std::make_shared<SpriteEntity>("res/bush.sprite");
+    bush->SetScale(math::Vector(80, 80));
+    bush->SetPosition(math::Vector(0, 350));
+    AddEntity(bush, FOREGROUND);
+
     // Add the counters
-    AddEntity(std::make_shared<CountdownTimer>(60, math::Vector(0, 350), mEventHandler), FOREGROUND);
+    AddEntity(std::make_shared<CountdownTimer>(60, math::Vector(-200, 500), mEventHandler), FOREGROUND);
     AddEntity(std::make_shared<ScoreCounter>(math::Vector(0, -350), mEventHandler), FOREGROUND);
     
     // Create the action manager
@@ -102,8 +111,22 @@ bool MiningZone::OnKeyUp(const event::KeyUpEvent& event)
     return false;
 }
 
+bool MiningZone::OnMouseDown(const event::MouseDownEvent& event)
+{
+    const math::Vector& local = mGemGrid->GetLocalCoordinates(math::Vector(event.worldX, event.worldY));
+    const math::Point& cell = mGemGrid->GetCellFromCoordinates(local);
+    
+    mHasSelectedGem = mMatrix.Validate(cell.y, cell.x);
+    mSelectedCell = cell;
+
+    return false;
+}
+
 bool MiningZone::OnMouseUp(const event::MouseUpEvent& event)
 {
+    if(!mHasSelectedGem)
+        return false;
+
     const math::Vector& local = mGemGrid->GetLocalCoordinates(math::Vector(event.worldX, event.worldY));
     const math::Point& cell = mGemGrid->GetCellFromCoordinates(local);
     
@@ -112,16 +135,6 @@ bool MiningZone::OnMouseUp(const event::MouseUpEvent& event)
     if(!validCell)
     {
         mHasSelectedGem = false;
-        mMatrix.Get(mSelectedCell.y, mSelectedCell.x)->SetSelected(false);
-        return false;
-    }
-    
-    // If we dont have a selected gem, save the clicked cell and return
-    if(!mHasSelectedGem)
-    {
-        mSelectedCell = cell;
-        mHasSelectedGem = true;
-        mMatrix.Get(cell.y, cell.x)->SetSelected(true);
         return false;
     }
     
@@ -138,7 +151,6 @@ bool MiningZone::OnMouseUp(const event::MouseUpEvent& event)
     
     // Reset selected gem...
     mHasSelectedGem = false;
-    selectedGem->SetSelected(false);
 
     return false;
 }

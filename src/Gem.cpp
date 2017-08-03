@@ -1,5 +1,6 @@
 
 #include "Gem.h"
+#include "SpriteEntity.h"
 #include "Rendering/IRenderer.h"
 #include "Rendering/Sprite/SpriteFactory.h"
 #include "Rendering/Sprite/ISprite.h"
@@ -8,31 +9,9 @@
 
 using namespace game;
 
-class SpriteEntity : public mono::EntityBase
-{
-public:
-
-    SpriteEntity(const char* sprite_file)
-    {
-        sprite = mono::CreateSprite(sprite_file);
-    }
-
-    void Draw(mono::IRenderer& renderer) const
-    {
-        renderer.DrawSprite(*sprite);
-    }
-
-    void Update(unsigned int delta)
-    {
-        sprite->doUpdate(delta);
-    }
-
-    mono::ISpritePtr sprite;        
-};
 
 Gem::Gem(const GemSetup& data)
-    : mType(data.type),
-      mSelected(false)
+    : mType(data.type)
 {
     m_scale = math::Vector(35, 35);
 
@@ -57,13 +36,7 @@ Gem::Gem(const GemSetup& data)
 }
 
 void Gem::Draw(mono::IRenderer& renderer) const
-{
-    if(mSelected)
-    {
-        constexpr mono::Color::RGBA color(1, 1, 1, 1);
-        renderer.DrawCircle(math::Vector(0, 0), 0.55, 20, 2.0f, color);
-    }
-}
+{ }
 
 void Gem::Update(unsigned int delta)
 {
@@ -83,11 +56,6 @@ void Gem::Update(unsigned int delta)
 GemType Gem::GetType() const
 {
     return mType;
-}
-
-void Gem::SetSelected(bool selected)
-{
-    mSelected = selected;
 }
 
 std::shared_ptr<game::Gem> game::CreateRandomGem(const math::Vector& position)

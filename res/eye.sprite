@@ -14,8 +14,8 @@
             "h": 129,
             "name": "eye",
             "w": 129,
-            "x": 2,
-            "y": 582
+            "x": 1830,
+            "y": 240
         }
     ],
     "texture": "res/sprite_atlas.png"

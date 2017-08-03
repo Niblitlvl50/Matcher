@@ -11,11 +11,11 @@
     ],
     "frames": [
         {
-            "h": 252,
-            "name": "body_red",
-            "w": 297,
+            "h": 208,
+            "name": "bush",
+            "w": 227,
             "x": 1529,
-            "y": 2
+            "y": 258
         }
     ],
     "texture": "res/sprite_atlas.png"
