@@ -25,8 +25,8 @@ namespace game
 
     private:
         
-        unsigned int mWait;
-        unsigned int mCounter;
-        mutable bool mSignal;
+        unsigned int mWait = 0;
+        unsigned int mCounter = 0;
+        mutable bool mSignal = false;
     };
 }

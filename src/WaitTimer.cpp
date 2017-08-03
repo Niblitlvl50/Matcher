@@ -7,9 +7,7 @@ WaitTimer::WaitTimer()
 { }
 
 WaitTimer::WaitTimer(unsigned int wait)
-    : mWait(wait),
-      mCounter(0),
-      mSignal(false)
+    : mWait(wait)
 { }
 
 void WaitTimer::SetTimeout(unsigned int wait)
