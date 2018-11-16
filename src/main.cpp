@@ -33,9 +33,9 @@ int main()
 
     constexpr math::Vector size(640, 1136);
 
-    std::unique_ptr<System::IWindow> window(System::CreateWindow("Mega Miner!", size.x, size.y, false));
+    std::unique_ptr<System::IWindow> window(System::CreateWindow("Mega Miner!", 0, 0, size.x, size.y, false));
 
-    mono::LoadFont(0, "res/fonts/pixelette.ttf", 35.0f);
+    mono::LoadFont(0, "res/fonts/pixelette.ttf", 35.0f, 1.0f);
 
     mono::ICameraPtr camera = std::make_shared<mono::TraceCamera>(size.x, size.y);
     mono::EventHandler eventHandler;

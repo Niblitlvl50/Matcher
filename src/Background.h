@@ -12,6 +12,7 @@ namespace game
     public:
         
         Background();
+        ~Background();
         
     private:
         

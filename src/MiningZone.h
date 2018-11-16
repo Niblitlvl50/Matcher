@@ -22,7 +22,7 @@ namespace game
         virtual ~MiningZone();
 
         virtual void OnLoad(mono::ICameraPtr& camera);
-        virtual void OnUnload();
+        virtual int OnUnload();
         
     private:
                 

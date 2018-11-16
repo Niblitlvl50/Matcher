@@ -66,9 +66,10 @@ void StartZone::OnLoad(mono::ICameraPtr& camera)
     AddDrawable(mExitText, FOREGROUND);
 }
 
-void StartZone::OnUnload()
+int StartZone::OnUnload()
 {
     RemoveListeners();
+    return 0;
 }
 
 bool StartZone::Quit() const

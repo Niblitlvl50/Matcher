@@ -9,7 +9,7 @@
 
 namespace game
 {
-    class MoveAction : public mono::IAction
+    class MoveAction : public IAction
     {
     public:
         

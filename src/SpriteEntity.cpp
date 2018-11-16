@@ -10,6 +10,9 @@ SpriteEntity::SpriteEntity(const char* sprite_file)
     sprite = mono::CreateSprite(sprite_file);
 }
 
+SpriteEntity::~SpriteEntity()
+{ }
+
 void SpriteEntity::Draw(mono::IRenderer& renderer) const
 {
     renderer.DrawSprite(*sprite);

@@ -94,8 +94,10 @@ void MiningZone::OnLoad(mono::ICameraPtr& camera)
     AddUpdatable(std::make_shared<MatchingLogic>(mMatrix, mGemGrid, mActionManager, mEventHandler));
 }
 
-void MiningZone::OnUnload()
-{ }
+int MiningZone::OnUnload()
+{
+    return 0;
+}
 
 bool MiningZone::OnCountdown(const game::CountdownEvent& event)
 {

@@ -16,7 +16,7 @@ namespace game
         StartZone(mono::EventHandler& eventHandler);
                 
         virtual void OnLoad(mono::ICameraPtr& camera);
-        virtual void OnUnload();
+        virtual int OnUnload();
         
         bool Quit() const;
         

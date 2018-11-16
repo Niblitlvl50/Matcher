@@ -6,7 +6,7 @@
 
 namespace game
 {
-    class ScaleAction : public mono::IAction
+    class ScaleAction : public IAction
     {
     public:
         

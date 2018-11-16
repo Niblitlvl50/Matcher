@@ -19,7 +19,7 @@ CountdownTimer::CountdownTimer(int seconds, const math::Vector& position, mono::
 
 void CountdownTimer::Draw(mono::IRenderer& renderer) const
 {
-    renderer.DrawText(0, mText.c_str(), math::zeroVec, true, mono::Color::RGBA(0, 0, 0));
+    renderer.DrawText(0, mText.c_str(), math::ZeroVec, true, mono::Color::RGBA(0, 0, 0));
 }
 
 void CountdownTimer::Update(unsigned int delta)

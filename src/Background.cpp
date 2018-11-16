@@ -1,6 +1,7 @@
 
 #include "Background.h"
 #include "Rendering/IRenderer.h"
+#include "Rendering/Sprite/ISprite.h"
 #include "Rendering/Sprite/SpriteFactory.h"
 
 using namespace game;
@@ -11,6 +12,9 @@ Background::Background()
     m_scale = math::Vector(640, 1136);
     mSprite = mono::CreateSprite("res/bg.sprite");
 }
+
+Background::~Background()
+{ }
 
 void Background::Draw(mono::IRenderer& renderer) const
 {

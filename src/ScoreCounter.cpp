@@ -55,7 +55,7 @@ void ScoreCounter::Draw(mono::IRenderer& renderer) const
     renderer.DrawQuad(quad, red, 3.0f);
     renderer.DrawQuad(quad, black, 2.0f);
 
-    renderer.DrawText(0, mText.c_str(), math::zeroVec, true, black);
+    renderer.DrawText(0, mText.c_str(), math::ZeroVec, true, black);
 }
 
 void ScoreCounter::Update(unsigned int delta)

@@ -1,10 +1,9 @@
 
 #include "ActionManager.h"
-#include "IAction.h"
 
 using namespace game;
 
-void ActionManager::AddAction(mono::IActionPtr action)
+void ActionManager::AddAction(IActionPtr action)
 {
     mActions.push_back(action);
 }
@@ -16,10 +15,10 @@ bool ActionManager::HasActiveActions() const
 
 void ActionManager::doUpdate(unsigned int delta)
 {
-    for(mono::IActionPtr action : mActions)
+    for(IActionPtr action : mActions)
         action->Update(delta);
     
-    const auto removeFunc = [](mono::IActionPtr action) {
+    const auto removeFunc = [](IActionPtr action) {
         return action->Finished();
     };
     
